@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HR Analytics Using XAI</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">✦</div>
+            <div>
+                <h2>HR<span>XAI</span></h2>
+                <small>Intelligent Workforce</small>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav>
+
+            <button class="nav-item active" onclick="showPage('dashboard', this)">
+                <span>▦</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showPage('employees', this)">
+                <span>♙</span>
+                Employees
+            </button>
+
+            <button class="nav-item" onclick="showPage('attrition', this)">
+                <span>◈</span>
+                Attrition Prediction
+            </button>
+
+            <button class="nav-item" onclick="showPage('recruitment', this)">
+                <span>◎</span>
+                Recruitment
+            </button>
+
+            <button class="nav-item" onclick="showPage('performance', this)">
+                <span>◉</span>
+                Performance
+            </button>
+
+            <button class="nav-item" onclick="showPage('reports', this)">
+                <span>▤</span>
+                Reports
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="ai-card">
+                <div class="ai-orb">✦</div>
+
+                <h4>AI Assistant</h4>
+
+                <p>
+                    Get explainable insights
+                    from your workforce data.
+                </p>
+
+                <button onclick="openAI()">Ask AI →</button>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">PM</div>
+
+                <div>
+                    <b>HR Admin</b>
+                    <small>Administrator</small>
+                </div>
+
+                <span>⋮</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <div class="breadcrumb">
+                    Workspace / <b id="pageName">Dashboard</b>
+                </div>
+
+                <h1 id="pageTitle">Good morning, HR Admin <span>✦</span></h1>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="search">
+                    🔍
+                    <input
+                        type="text"
+                        placeholder="Search anything..."
+                        onkeyup="globalSearch(this.value)"
+                    >
+                </div>
+
+                <button class="icon-btn">🔔</button>
+
+                <button class="add-btn" onclick="openAddEmployee()">
+                    + Add Employee
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD PAGE -->
+        <section id="dashboard" class="page active-page">
+
+            <div class="welcome-banner">
+
+                <div>
+                    <p class="eyebrow">WORKFORCE INTELLIGENCE</p>
+
+                    <h2>
+                        Make smarter decisions.<br>
+                        <span>Understand the why.</span>
+                    </h2>
+
+                    <p>
+                        AI-powered insights with transparent explanations
+                        for every HR decision.
+                    </p>
+                </div>
+
+                <div class="banner-flow">
+
+                    <div class="flow-box">
+                        <strong>DATA</strong>
+                        <small>Employee Records</small>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="flow-box">
+                        <strong>AI</strong>
+                        <small>Prediction</small>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="flow-box highlight">
+                        <strong>XAI</strong>
+                        <small>Explanation</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Total Employees</span>
+                        <div class="stat-icon blue">♙</div>
+                    </div>
+
+                    <h2>1,248</h2>
+
+                    <p class="positive">↑ 8.2% <span>vs last month</span></p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>High Attrition Risk</span>
+                        <div class="stat-icon red">⚠</div>
+                    </div>
+
+                    <h2>87</h2>
+
+                    <p class="negative">↑ 4.6% <span>needs attention</span></p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Avg. Engagement</span>
+                        <div class="stat-icon purple">✦</div>
+                    </div>
+
+                    <h2>78.4%</h2>
+
+                    <p class="positive">↑ 3.1% <span>vs last month</span></p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Avg. Performance</span>
+                        <div class="stat-icon green">◉</div>
+                    </div>
+
+                    <h2>8.6<span class="small">/10</span></h2>
+
+                    <p class="positive">↑ 0.8% <span>vs last month</span></p>
+                </div>
+
+            </div>
+
+
+            <!-- CHARTS -->
+            <div class="chart-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Workforce Overview</h3>
+                            <p>Employee trends across departments</p>
+                        </div>
+
+                        <select onchange="changeChart(this.value)">
+                            <option value="headcount">Headcount</option>
+                            <option value="engagement">Engagement</option>
+                            <option value="performance">Performance</option>
+                        </select>
+
+                    </div>
+
+                    <div class="chart-box">
+                        <canvas id="workforceChart"></canvas>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Attrition Risk</h3>
+                            <p>Current workforce risk distribution</p>
+                        </div>
+
+                        <span class="live-badge">● LIVE</span>
+
+                    </div>
+
+                    <div class="risk-chart">
+
+                        <canvas id="riskChart"></canvas>
+
+                        <div class="risk-center">
+                            <strong>87</strong>
+                            <span>High Risk</span>
+                        </div>
+
+                    </div>
+
+                    <div class="risk-legend">
+
+                        <div>
+                            <i class="dot high"></i>
+                            High Risk
+                            <b>87</b>
+                        </div>
+
+                        <div>
+                            <i class="dot medium"></i>
+                            Medium Risk
+                            <b>246</b>
+                        </div>
+
+                        <div>
+                            <i class="dot low"></i>
+                            Low Risk
+                            <b>915</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER GRID -->
+            <div class="lower-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Recent Alerts</h3>
+                            <p>AI-identified insights requiring attention</p>
+                        </div>
+
+                        <button class="text-btn">View all →</button>
+
+                    </div>
+
+                    <div class="alert-list">
+
+                        <div class="alert-item">
+
+                            <div class="alert-icon red">⚠</div>
+
+                            <div>
+                                <b>High attrition risk detected</b>
+                                <p>Engineering Department · 12 employees</p>
+                            </div>
+
+                            <span>2h ago</span>
+
+                        </div>
+
+
+                        <div class="alert-item">
+
+                            <div class="alert-icon yellow">!</div>
+
+                            <div>
+                                <b>Engagement score declining</b>
+                                <p>Marketing Department · -8.4% this month</p>
+                            </div>
+
+                            <span>5h ago</span>
+
+                        </div>
+
+
+                        <div class="alert-item">
+
+                            <div class="alert-icon blue">✦</div>
+
+                            <div>
+                                <b>Promotion recommendations ready</b>
+                                <p>24 employees identified by AI</p>
+                            </div>
+
+                            <span>1d ago</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel insight-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>AI Insight of the Day</h3>
+                            <p>Explainable intelligence</p>
+                        </div>
+
+                        <div class="sparkle">✦</div>
+
+                    </div>
+
+                    <div class="insight-content">
+
+                        <div class="quote-mark">“</div>
+
+                        <p>
+                            Employees with high workload and no promotion
+                            in the last 3 years are <strong>2.4× more likely</strong>
+                            to leave.
+                        </p>
+
+                        <div class="insight-source">
+                            <span>✦</span>
+                            Based on SHAP analysis · Updated today
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- EMPLOYEES PAGE -->
+        <section id="employees" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">WORKFORCE DIRECTORY</p>
+                    <h2>Employee Management</h2>
+                    <p>Manage and analyze your workforce data.</p>
+                </div>
+
+                <button class="add-btn" onclick="openAddEmployee()">
+                    + Add Employee
+                </button>
+
+            </div>
+
+            <div class="filter-bar">
+
+                <input
+                    id="employeeSearch"
+                    type="text"
+                    placeholder="🔍 Search employees..."
+                    onkeyup="searchEmployees()"
+                >
+
+                <select onchange="filterDepartment(this.value)">
+                    <option value="all">All Departments</option>
+                    <option>Engineering</option>
+                    <option>Marketing</option>
+                    <option>Sales</option>
+                    <option>HR</option>
+                </select>
+
+                <select>
+                    <option>All Risk Levels</option>
+                    <option>High Risk</option>
+                    <option>Medium Risk</option>
+                    <option>Low Risk</option>
+                </select>
+
+            </div>
+
+            <div class="employee-table panel">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>EMPLOYEE</th>
+                            <th>DEPARTMENT</th>
+                            <th>ROLE</th>
+                            <th>ENGAGEMENT</th>
+                            <th>PERFORMANCE</th>
+                            <th>ATTRITION RISK</th>
+                            <th>ACTION</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="employeeTableBody">
+
+                        <tr data-department="Engineering">
+
+                            <td>
+                                <div class="employee">
+
+                                    <div class="mini-avatar avatar-blue">AS</div>
+
+                                    <div>
+                                        <b>Alex Smith</b>
+                                        <small>EMP-1001</small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>Engineering</td>
+
+                            <td>Senior Developer</td>
+
+                            <td>
+                                <div class="progress">
+                                    <span style="width:72%"></span>
+                                </div>
+                                72%
+                            </td>
+
+                            <td>9.2 / 10</td>
+
+                            <td>
+                                <span class="risk-tag high-risk">HIGH</span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn" onclick="viewEmployee('Alex Smith')">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-department="Marketing">
+
+                            <td>
+                                <div class="employee">
+
+                                    <div class="mini-avatar avatar-purple">EW</div>
+
+                                    <div>
+                                        <b>Emma Wilson</b>
+                                        <small>EMP-1002</small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>Marketing</td>
+
+                            <td>Marketing Manager</td>
+
+                            <td>
+                                <div class="progress">
+                                    <span style="width:91%"></span>
+                                </div>
+                                91%
+                            </td>
+
+                            <td>8.8 / 10</td>
+
+                            <td>
+                                <span class="risk-tag low-risk">LOW</span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn" onclick="viewEmployee('Emma Wilson')">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-department="Sales">
+
+                            <td>
+                                <div class="employee">
+
+                                    <div class="mini-avatar avatar-green">MJ</div>
+
+                                    <div>
+                                        <b>Michael Johnson</b>
+                                        <small>EMP-1003</small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>Sales</td>
+
+                            <td>Sales Executive</td>
+
+                            <td>
+                                <div class="progress">
+                                    <span style="width:63%"></span>
+                                </div>
+                                63%
+                            </td>
+
+                            <td>7.4 / 10</td>
+
+                            <td>
+                                <span class="risk-tag medium-risk">MEDIUM</span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn" onclick="viewEmployee('Michael Johnson')">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ATTRITION PAGE -->
+        <section id="attrition" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">PREDICTIVE ANALYTICS</p>
+                    <h2>Attrition Prediction</h2>
+                    <p>Predict employee attrition risk and understand why.</p>
+                </div>
+
+            </div>
+
+
+            <div class="prediction-layout">
+
+                <div class="panel prediction-form">
+
+                    <h3>Analyze Employee</h3>
+
+                    <p>
+                        Enter employee factors to generate an AI prediction.
+                    </p>
+
+                    <label>Employee Name</label>
+                    <input id="predName" type="text" placeholder="Enter employee name">
+
+                    <label>Engagement Score</label>
+                    <input id="engagementInput" type="range" min="0" max="100" value="45"
+                        oninput="document.getElementById('engagementValue').innerText=this.value+'%'">
+
+                    <div class="range-value" id="engagementValue">45%</div>
+
+                    <label>Workload Level</label>
+
+                    <select id="workloadInput">
+
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+
+                    </select>
+
+                    <label>Years Since Promotion</label>
+
+                    <input id="promotionInput" type="number" min="0" value="3">
+
+                    <label>Job Satisfaction</label>
+
+                    <select id="satisfactionInput">
+
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+
+                    </select>
+
+                    <button class="predict-btn" onclick="predictAttrition()">
+                        ✦ Generate XAI Prediction
+                    </button>
+
+                </div>
+
+
+                <div class="panel result-card" id="predictionResult">
+
+                    <div class="result-placeholder">
+
+                        <div class="big-ai-icon">✦</div>
+
+                        <h3>Ready to Analyze</h3>
+
+                        <p>
+                            Enter employee details to generate an
+                            explainable attrition prediction.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECRUITMENT PAGE -->
+        <section id="recruitment" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">TALENT INTELLIGENCE</p>
+                    <h2>Recruitment Analytics</h2>
+                    <p>Find the right candidate with explainable AI.</p>
+                </div>
+
+            </div>
+
+
+            <div class="recruitment-grid">
+
+                <div class="panel">
+
+                    <h3>Candidate Evaluation</h3>
+
+                    <label>Candidate Name</label>
+
+                    <input id="candidateName" type="text" placeholder="Enter candidate name">
+
+                    <label>Python Skill</label>
+
+                    <input id="pythonSkill" type="range" min="0" max="100" value="80">
+
+                    <label>Database Skill</label>
+
+                    <input id="databaseSkill" type="range" min="0" max="100" value="75">
+
+                    <label>Experience (Years)</label>
+
+                    <input id="experience" type="number" value="2">
+
+                    <button class="predict-btn" onclick="evaluateCandidate()">
+                        Evaluate Candidate
+                    </button>
+
+                </div>
+
+
+                <div class="panel candidate-result" id="candidateResult">
+
+                    <div class="result-placeholder">
+
+                        <div class="big-ai-icon">◎</div>
+
+                        <h3>Candidate Match</h3>
+
+                        <p>
+                            Enter candidate details to calculate
+                            explainable job-fit score.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PERFORMANCE PAGE -->
+        <section id="performance" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">DEVELOPMENT INTELLIGENCE</p>
+                    <h2>Performance Analytics</h2>
+                    <p>Turn performance data into development insights.</p>
+                </div>
+
+            </div>
+
+
+            <div class="performance-cards">
+
+                <div class="performance-card">
+
+                    <span>Average Performance</span>
+
+                    <h2>8.6 <small>/10</small></h2>
+
+                    <div class="performance-line">
+                        <span style="width:86%"></span>
+                    </div>
+
+                    <p>↑ 0.8% this quarter</p>
+
+                </div>
+
+
+                <div class="performance-card">
+
+                    <span>Promotion Ready</span>
+
+                    <h2>24</h2>
+
+                    <p class="positive">Employees identified by AI</p>
+
+                </div>
+
+
+                <div class="performance-card">
+
+                    <span>Training Required</span>
+
+                    <h2>68</h2>
+
+                    <p class="negative">Employees need development support</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel development-panel">
+
+                <h3>Development Insights</h3>
+
+                <p>
+                    XAI helps identify the factors influencing performance
+                    and recommends targeted development actions.
+                </p>
+
+                <div class="development-grid">
+
+                    <div class="development-item">
+                        <span>▣</span>
+                        <b>Technical Skills</b>
+                        <small>32 employees require focused training</small>
+                    </div>
+
+                    <div class="development-item">
+                        <span>◎</span>
+                        <b>Leadership Readiness</b>
+                        <small>24 employees show promotion potential</small>
+                    </div>
+
+                    <div class="development-item">
+                        <span>◈</span>
+                        <b>Communication</b>
+                        <small>18 employees need development support</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REPORTS PAGE -->
+        <section id="reports" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">INSIGHTS & DOCUMENTATION</p>
+                    <h2>Reports</h2>
+                    <p>Generate workforce analytics reports.</p>
+                </div>
+
+            </div>
+
+
+            <div class="report-grid">
+
+                <div class="report-card">
+
+                    <div class="report-icon">▤</div>
+
+                    <h3>Attrition Risk Report</h3>
+
+                    <p>
+                        Detailed report of high-risk employees
+                        and key contributing factors.
+                    </p>
+
+                    <button onclick="generateReport()">
+                        Generate Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">◉</div>
+
+                    <h3>Performance Report</h3>
+
+                    <p>
+                        Analyze employee performance and
+                        development opportunities.
+                    </p>
+
+                    <button onclick="generateReport()">
+                        Generate Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">✦</div>
+
+                    <h3>Explainability Report</h3>
+
+                    <p>
+                        View AI decisions and their
+                        explainable contributing factors.
+                    </p>
+
+                    <button onclick="generateReport()">
+                        Generate Report →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ADD EMPLOYEE MODAL -->
+<div class="modal" id="employeeModal">
+
+    <div class="modal-box">
+
+        <button class="close-btn" onclick="closeModal()">×</button>
+
+        <h2>Add New Employee</h2>
+
+        <p>Add employee information to the HR analytics system.</p>
+
+        <label>Full Name</label>
+        <input id="newName" type="text" placeholder="Employee name">
+
+        <label>Department</label>
+
+        <select id="newDepartment">
+
+            <option>Engineering</option>
+            <option>Marketing</option>
+            <option>Sales</option>
+            <option>HR</option>
+
+        </select>
+
+        <label>Job Role</label>
+        <input id="newRole" type="text" placeholder="Job role">
+
+        <button class="predict-btn" onclick="addEmployee()">
+            Add Employee
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- AI MODAL -->
+<div class="modal" id="aiModal">
+
+    <div class="modal-box ai-modal">
+
+        <button class="close-btn" onclick="closeAIModal()">×</button>
+
+        <div class="big-ai-icon">✦</div>
+
+        <h2>AI HR Assistant</h2>
+
+        <p>
+            Ask questions about workforce analytics.
+        </p>
+
+        <input
+            id="aiQuestion"
+            type="text"
+            placeholder="e.g. Why is attrition high?"
+        >
+
+        <button class="predict-btn" onclick="askAI()">
+            Ask AI
+        </button>
+
+        <div id="aiAnswer" class="ai-answer"></div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
